@@ -7,10 +7,10 @@ RUN apt-get update
 RUN apt-get install -y curl vim python3 python3-pip git libffi-dev libssl-dev supervisor openssh-server 
 RUN apt-get install -y ansible
 
-COPY id_rsa.pub /root/.ssh/id_rsa.pub
-COPY id_rsa /root/.ssh/id_rsa 
-RUN cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys 
-RUN chmod 600 -R /root/.ssh/ 
+# COPY id_rsa.pub /root/.ssh/id_rsa.pub
+# COPY id_rsa /root/.ssh/id_rsa 
+# RUN cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys 
+# RUN chmod 600 -R /root/.ssh/ 
 
 RUN service ssh start
 
