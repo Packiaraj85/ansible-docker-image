@@ -37,6 +37,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Log in to Container Registry
+        run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ env.REGISTRY }} -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
+
       - name: Pull and Run Tests in Container
         run: |
           docker pull ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
