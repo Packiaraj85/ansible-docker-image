@@ -58,6 +58,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             docker pull ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            docker run -d --name my-app-container -p 80:80 ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
             docker stop my-app-container || true
             docker rm my-app-container || true
-            docker run -d --name my-app-container -p 80:80 ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
