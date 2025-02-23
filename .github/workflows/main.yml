@@ -25,10 +25,10 @@ jobs:
         run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ env.REGISTRY }} -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
 
       - name: Build Docker image
-        run: docker build -t ${{ env.REGISTRY }}/your-username/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+        run: docker build -t ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }} .
 
       - name: Push Docker image
-        run: docker push ${{ env.REGISTRY }}/your-username/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        run: docker push ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
   test:
     runs-on: ubuntu-latest
@@ -39,8 +39,8 @@ jobs:
 
       - name: Pull and Run Tests in Container
         run: |
-          docker pull ${{ env.REGISTRY }}/your-username/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          docker run --rm ${{ env.REGISTRY }}/your-username/${{ env.IMAGE_NAME }}:${{ github.sha }} npm test
+          docker pull ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker run --rm ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }} npm test
 
   deploy:
     runs-on: ubuntu-latest
@@ -54,7 +54,7 @@ jobs:
           username: ${{ env.DEPLOY_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker pull ${{ env.REGISTRY }}/your-username/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            docker pull ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
             docker stop my-app-container || true
             docker rm my-app-container || true
-            docker run -d --name my-app-container -p 80:80 ${{ env.REGISTRY }}/your-username/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            docker run -d --name my-app-container -p 80:80 ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
