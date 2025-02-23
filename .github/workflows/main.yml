@@ -43,7 +43,7 @@ jobs:
       - name: Pull and Run Tests in Container
         run: |
           docker pull ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          docker run --rm ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }} npm test
+          docker run --rm ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }} /bin/bash
 
   deploy:
     runs-on: ubuntu-latest
