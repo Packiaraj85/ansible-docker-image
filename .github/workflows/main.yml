@@ -6,9 +6,11 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Build Docker image
+        shell: cmd
         run: docker build -t packiarajd/idpa:ver1 .
+      - name: Display the path
+        shell: cmd
+        run: echo %PATH%
 
-      - name: Push Docker image
-        run: docker push packiarajd/idpa:ver1
 
 
