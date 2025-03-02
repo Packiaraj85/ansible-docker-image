@@ -1,13 +1,13 @@
-name: CI/CD Pipeline for Docker App
+name: Echo
 on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: W2
     steps:
       - name: Build Docker image
         shell: cmd
-        run: docker build -t packiarajd/idpa:ver1 .
+        run: echo %HOSTNAME%
       - name: Display the path
         shell: cmd
         run: echo %PATH%
