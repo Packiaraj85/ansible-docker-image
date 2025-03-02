@@ -1,9 +1,6 @@
 name: CI/CD Pipeline for Docker App
-
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 env:
   IMAGE_NAME: idpa
   REGISTRY: docker.io  # Change to docker.io if using Docker Hub
@@ -12,14 +9,8 @@ env:
 
 jobs:
   build:
-    runs-on: W2
+    runs-on: self-hosted
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Log in to Container Registry
-        run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ env.REGISTRY }} -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
-
       - name: Build Docker image
         run: docker build -t ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }} .
 
@@ -27,7 +18,7 @@ jobs:
         run: docker push ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
   test:
-    runs-on: W2
+    runs-on: self-hosted
     needs: build
     steps:
       - name: Checkout code
