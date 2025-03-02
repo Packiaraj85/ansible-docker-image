@@ -1,50 +1,14 @@
 name: CI/CD Pipeline for Docker App
 on:
   workflow_dispatch:
-env:
-  IMAGE_NAME: idpa
-  REGISTRY: docker.io  # Change to docker.io if using Docker Hub
-  DEPLOY_SERVER: 192.168.0.100
-  DEPLOY_USER: packiarajd
-
 jobs:
   build:
     runs-on: self-hosted
     steps:
       - name: Build Docker image
-        run: docker build -t ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+        run: docker build -t packiarajd/idpa:ver1 .
 
       - name: Push Docker image
-        run: docker push ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        run: docker push packiarajd/idpa:ver1
 
-  test:
-    runs-on: self-hosted
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
 
-      - name: Log in to Container Registry
-        run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ env.REGISTRY }} -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
-
-      - name: Pull and Run Tests in Container
-        run: |
-          docker pull ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          docker run --rm ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }} /bin/bash
-
-  # deploy:
-  #   runs-on: W2
-  #   needs: test
-  #   if: github.ref == 'refs/heads/main'
-  #   steps:
-  #     - name: Deploy to Server
-  #       uses: appleboy/ssh-action@v0.1.7
-  #       with:
-  #         host: ${{ env.DEPLOY_SERVER }}
-  #         username: ${{ env.DEPLOY_USER }}
-  #         key: ${{ secrets.SSH_PRIVATE_KEY }}
-  #         script: |
-  #           docker pull ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
-  #           docker run -d --name my-app-container -p 80:80 ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }} || true
-  #           docker stop my-app-container || true
-  #           docker rm my-app-container
