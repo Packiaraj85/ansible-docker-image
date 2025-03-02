@@ -16,7 +16,7 @@ env:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: W2
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,7 +31,7 @@ jobs:
         run: docker push ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
   test:
-    runs-on: self-hosted
+    runs-on: W2
     needs: build
     steps:
       - name: Checkout code
@@ -46,7 +46,7 @@ jobs:
           docker run --rm ${{ env.REGISTRY }}/packiarajd/${{ env.IMAGE_NAME }}:${{ github.sha }} /bin/bash
 
   # deploy:
-  #   runs-on: self-hosted
+  #   runs-on: W2
   #   needs: test
   #   if: github.ref == 'refs/heads/main'
   #   steps:
