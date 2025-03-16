@@ -3,14 +3,12 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: W2
+    runs-on: self-hostes
     steps:
-      - name: Build Docker image
+      - name: Echo Hostname
         shell: cmd
         run: echo %HOSTNAME%
-      - name: Display the path
-        shell: cmd
-        run: echo %PATH%
+
 
 
 
