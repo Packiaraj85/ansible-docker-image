@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo Hostname
-        run: echo hostname
+        run: hostname
 
 
 
